@@ -1,4 +1,4 @@
-# ace-step
+# ACE-Step
 ACE-STEP paper implementation
 
 [Paper](https://arxiv.org/pdf/2506.00045)
