@@ -13,3 +13,4 @@ ACE-STEP paper implementation, this paper is regarding text to song generation m
 - Cross Attention
 - Train the Autoencoder & Upload it to huggineface
 - Implement Encoders for music
+- flash Attention 3
