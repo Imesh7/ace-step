@@ -1,0 +1,6 @@
+pytorch
+torch
+torchvision
+torchaudio
+soundfile
+numpy
