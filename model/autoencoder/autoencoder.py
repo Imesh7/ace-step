@@ -10,8 +10,9 @@
 # You may asked why not the `SD-VAE` , I think because, when on high dimention I saw drops image quality (check out
 # the above paper they figured out that issue)
 
-import torch
 import torch.nn as nn
+from model.autoencoder.decoder import Decoder
+from model.autoencoder.encoder import Encoder
 
 class DeepCompressionAutoEncoder(nn.Module):
   def __init__(self,in_channels, *args, **kwargs) -> None:
@@ -25,39 +26,9 @@ class DeepCompressionAutoEncoder(nn.Module):
     return x
 
 
-def conv_block(in_channels, out_channels):
-  x = nn.Sequential(
-    nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=3, padding=1),
-    nn.ReLU(),
-    nn.BatchNorm2d(out_channels),
-  )
-
-  return x
-
-class Encoder(nn.Module):
-  def __init__(self, in_channels, out_channels, *args, **kwargs) -> None:
-    super().__init__(*args, **kwargs)
-    self.layers = nn.ModuleList()
-    self.layers.append(conv_block(in_channels=in_channels, out_channels=out_channels))
-
-  def forward(self, x):
-    skip_connection = []
-    for layer in self.layers:
-      x = layer(x)
-      skip_connection.append(x)
-    return x, skip_connection
 
 
 
-class Decoder(nn.Module):
-  def __init__(self, in_channels, out_channels, *args, **kwargs) -> None:
-    super().__init__(*args, **kwargs)
-    self.layers = nn.ModuleList()
-    self.layers.append(conv_block(in_channels=in_channels, out_channels=out_channels))
 
-  def forward(self, x, skip_connections):
-    skip_connection = skip_connections[::-1]
-    for layer in self.layers:
-      x = layer(x)
-      x = torch.cat([x, skip_connection.pop(0)], dim=1)
-    return x
+
+
