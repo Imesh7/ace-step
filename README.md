@@ -1,11 +1,12 @@
 # ACE-Step
-ACE-STEP paper implementation from scratch, this paper is regarding text to song generation model building & its architecture
+This is ACE-STEP paper implementation from scratch. This paper's goal is to build a model to generate text-to-song & features.
 
 [Paper](https://arxiv.org/pdf/2506.00045)
 
 
 ### Key features
 
+- Multi-Head Attention
 - DiT(Diffussion transformer) implemented
 - Converted songs into mel-spectrogram
 
@@ -13,7 +14,9 @@ ACE-STEP paper implementation from scratch, this paper is regarding text to song
 - Cross Attention
 - Train the Autoencoder & Upload it to huggineface
 - Implement Encoders for music
-- flash Attention 3
+- Flash Attention 3
 
 
-<img width="1000" height="270" alt="image" src="https://github.com/user-attachments/assets/d7617052-c02f-41ee-b304-81392ffd0e28" />
+### Overall Architecture
+
+<img width="1000" height="350" alt="image" src="https://github.com/user-attachments/assets/d7617052-c02f-41ee-b304-81392ffd0e28" />
