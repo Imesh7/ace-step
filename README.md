@@ -1,5 +1,5 @@
 # ACE-Step
-This is ACE-STEP paper implementation from scratch. This paper's goal is to build a model to generate text-to-song & features.
+This is ACE-STEP paper implementation (Unofficial) from scratch. This paper's goal is to build a model to generate text-to-song & features.
 
 [Paper](https://arxiv.org/pdf/2506.00045)
 
