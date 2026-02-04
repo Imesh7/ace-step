@@ -1,0 +1,43 @@
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+class MultiHeadAttention(nn.Module):
+  def __init__(self, in_channels, out_channels, num_heads, *args, **kwargs) -> None:
+    super().__init__(*args, **kwargs)
+    self.in_channels = in_channels
+    self.out_channels = out_channels
+    self.num_heads = num_heads
+    self.d_model = in_channels
+    self.head_dim = in_channels // num_heads
+    # multiplied by 3 , beacuse we have 'q' , 'k' & 'v' seperations
+    self.qkv = nn.Linear(in_features=in_channels, out_features= 3 * out_channels)
+    self.proj = nn.Linear(in_features=out_channels, out_features=out_channels)
+
+
+  def forward(self, x):
+    batch_size, samples, emb_dim = x.shape
+    # In here we have a Tensor Like [5, 12, 3*512]
+    # this is like 5 batch, 12 samples, 3 * 512 (dimentios)
+    qkv = self.qkv(x)
+
+    # Lets reshape it
+    qkv = qkv.view(batch_size, samples, 3, self.num_heads, self.head_dim)
+    qkv = qkv.permute(2 , 0 , 3 , 1 , 4)
+
+    query, key, value = qkv
+
+    mask = torch.tril(torch.ones(samples, self.head_dim))
+    x = F.scaled_dot_product_attention(query, key, value, atten_mask=mask)
+
+    proj = self.proj(x)
+    return proj
+
+
+
+# Implement cross attention for the TAGS, LY
+class CrossAttention(nn.Module):
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
