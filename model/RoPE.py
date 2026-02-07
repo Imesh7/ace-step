@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class RotationPositionalEmbedding(nn.Module):
+class RotationalPositionalEmbedding(nn.Module):
     def __init__(self, dim):
         super().__init__()
         self.dim = dim
