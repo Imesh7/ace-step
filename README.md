@@ -9,6 +9,8 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - Multi-Head Attention
 - DiT(Diffussion transformer) implemented
 - Converted songs into mel-spectrogram
+- `Tags` -> mT5 encoder
+- `Lyrics` -> VoiceBPE Tokenizer
 
 ### What's next
 - Cross Attention
