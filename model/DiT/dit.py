@@ -1,6 +1,6 @@
 import torch.nn as nn
 import numpy as np
-from model.transformer.attention import FeedForward, MultiHeadAttention
+from model.transformer.attention import CrossAttention, FeedForward, MultiHeadAttention
 
 # Implement DiT (Diffusion Transformer)
 
@@ -8,7 +8,8 @@ class DiffusionTransformer(nn.Module):
   def __init__(self, in_channels, out_channels, *args, **kwargs) -> None:
     super().__init__(*args, **kwargs)
     # Re-check the in_channels & out , because in multi atten we did divide the value by heads
-    self.atten = MultiHeadAttention(in_channels=in_channels, out_channels=512, num_heads=8)
+    self.self_atten = MultiHeadAttention(in_channels=in_channels, out_channels=512, num_heads=8)
+    self.cross_atten = CrossAttention(in_channels=in_channels, out_channels=512, num_heads=8)
     self.norm = nn.LayerNorm(512)
     self.mix_ff = FeedForward(in_channels=512, out_channels=512)
 
