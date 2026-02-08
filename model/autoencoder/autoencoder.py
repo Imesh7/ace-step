@@ -14,21 +14,14 @@ import torch.nn as nn
 from model.autoencoder.decoder import Decoder
 from model.autoencoder.encoder import Encoder
 
+
 class DeepCompressionAutoEncoder(nn.Module):
-  def __init__(self,in_channels, *args, **kwargs) -> None:
-    super().__init__(*args, **kwargs)
-    self.encoder = Encoder(in_channels=in_channels, out_channels=32 * in_channels)
-    self.decoder = Decoder(in_channels=32 * in_channels, out_channels=in_channels)
+    def __init__(self, in_channels, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.encoder = Encoder(in_channels=in_channels, out_channels=32 * in_channels)
+        self.decoder = Decoder(in_channels=32 * in_channels, out_channels=in_channels)
 
-  def forward(self, x):
-    x , skip_connections = self.encoder(x)
-    x = self.decoder(x, skip_connections)
-    return x
-
-
-
-
-
-
-
-
+    def forward(self, x):
+        x, skip_connections = self.encoder(x)
+        x = self.decoder(x, skip_connections)
+        return x
