@@ -48,15 +48,12 @@ class LinearAttention(nn.Module):
         self.num_heads = num_heads
         self.d_model = in_channels
         self.head_dim = in_channels // num_heads
-        
+
         self.q = nn.Linear(in_features=in_channels, out_features=out_channels)
         self.k = nn.Linear(in_features=in_channels, out_features=out_channels)
         self.v = nn.Linear(in_features=in_channels, out_features=out_channels)
         self.proj = nn.Linear(in_features=out_channels, out_features=out_channels)
 
-
-    def elu_feature_map(self, x):
-        return F.elu(x) + 1
 
     def forward(self, x):
         batch_size, samples, emb_dim = x.shape
@@ -64,8 +61,10 @@ class LinearAttention(nn.Module):
         key = self.k(x)
         value = self.v(x)
 
-        query = self.elu_feature_map(query)
-        key = self.elu_feature_map(key)
+        # In Linear Attention we use ELU activation with +1 to make the attention scores non-negative 
+        # As in ACE-STEP architecture we used RELU activation function to make the attention scores non-negative
+        query = F.relu(query)
+        key = F.relu(key)
         # Compute the attention scores
         kv = torch.einsum('bshd,bshe->bhde', key, value)
 
