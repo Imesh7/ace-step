@@ -26,6 +26,13 @@ git@github.com:Imesh7/ace-step.git
 conda env create --name ace-step -f environment.yml
 ```
 
+3. Activate the conda environment:
+```
+conda activate ace-step
+```
+
+
+
 #### Dependency
 
 Install Dependecies 
