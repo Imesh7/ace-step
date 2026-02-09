@@ -11,9 +11,38 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - Converted songs into mel-spectrogram
 - `Tags` -> mT5 encoder
 - `Lyrics` -> VoiceBPE Tokenizer
+- Cross Attention
+- RoPE implement
+
+
+### Environment Setup
+
+1. Clone the repository:
+```
+git@github.com:Imesh7/ace-step.git
+```
+
+2. Setup enviornment
+
+``` 
+conda env create --name ace-step -f environment.yml
+```
+
+3. Activate the conda environment:
+```
+conda activate ace-step
+```
+
+
+
+#### Dependency
+
+Install Dependecies 
+```
+conda install --file requirements.txt
+```
 
 ### What's next
-- Cross Attention
 - Train the Autoencoder & Upload it to huggineface
 - Implement Encoders for music
 - Flash Attention 3
