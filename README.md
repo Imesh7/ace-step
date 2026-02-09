@@ -12,6 +12,7 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - `Tags` -> mT5 encoder
 - `Lyrics` -> VoiceBPE Tokenizer
 - Cross Attention
+- RoPE implement
 
 
 ### Environment Setup
