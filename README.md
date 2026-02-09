@@ -11,6 +11,7 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - Converted songs into mel-spectrogram
 - `Tags` -> mT5 encoder
 - `Lyrics` -> VoiceBPE Tokenizer
+- Cross Attention
 
 
 ### Environment Setup
@@ -41,7 +42,6 @@ conda install --file requirements.txt
 ```
 
 ### What's next
-- Cross Attention
 - Train the Autoencoder & Upload it to huggineface
 - Implement Encoders for music
 - Flash Attention 3
