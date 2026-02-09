@@ -37,35 +37,3 @@ class MultiHeadAttention(nn.Module):
         x = x.view(batch_size, samples, self.out_channels)
         proj = self.proj(x)
         return proj
-
-
-# Implement cross attention for the TAGS, LY
-class CrossAttention(nn.Module):
-    def __init__(self, in_channels, out_channels, num_heads, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.in_channels = in_channels
-        self.out_channels = out_channels
-        self.num_heads = num_heads
-        self.head_dim = in_channels // num_heads
-
-        self.w_q = RotationalPositionalEmbedding(dim=self.in_channels)
-        self.w_k = RotationalPositionalEmbedding(dim=self.in_channels)
-        self.w_v = nn.Linear(
-            in_features=self.in_channels, out_features=self.out_channels
-        )
-        self.proj = nn.Linear(
-            in_features=self.out_channels, out_features=self.out_channels
-        )
-
-    def forward(self, x1, x2):
-        batch_size, samples, emb_dim = x1.shape
-        query = self.w_q(x1)
-        key = self.w_k(x2)
-        value = self.w_v(x2)
-
-        mask = torch.tril(torch.ones(samples, self.head_dim))
-
-        x = F.scaled_dot_product_attention(query, key, value, atten_mask=mask)
-
-        proj = self.proj(x)
-        return proj
