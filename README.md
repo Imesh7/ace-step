@@ -6,7 +6,7 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 
 ### Key features
 
-- Multi-Head Attention
+- Linear Attention
 - DiT(Diffussion transformer) implemented
 - Converted songs into mel-spectrogram
 - `Tags` -> mT5 encoder
