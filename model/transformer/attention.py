@@ -48,7 +48,7 @@ class LinearAttention(nn.Module):
         self.num_heads = num_heads
         self.d_model = in_channels
         self.head_dim = in_channels // num_heads
-        # multiplied by 3 , beacuse we have 'q' , 'k' & 'v' seperations
+        
         self.q = nn.Linear(in_features=in_channels, out_features=out_channels)
         self.k = nn.Linear(in_features=in_channels, out_features=out_channels)
         self.v = nn.Linear(in_features=in_channels, out_features=out_channels)
