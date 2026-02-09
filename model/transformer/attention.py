@@ -37,3 +37,40 @@ class MultiHeadAttention(nn.Module):
         x = x.view(batch_size, samples, self.out_channels)
         proj = self.proj(x)
         return proj
+
+
+
+class LinearAttention(nn.Module):
+    def __init__(self, in_channels, out_channels, num_heads, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+        self.num_heads = num_heads
+        self.d_model = in_channels
+        self.head_dim = in_channels // num_heads
+        # multiplied by 3 , beacuse we have 'q' , 'k' & 'v' seperations
+        self.q = nn.Linear(in_features=in_channels, out_features=out_channels)
+        self.k = nn.Linear(in_features=in_channels, out_features=out_channels)
+        self.v = nn.Linear(in_features=in_channels, out_features=out_channels)
+        self.proj = nn.Linear(in_features=out_channels, out_features=out_channels)
+
+
+    def elu_feature_map(self, x):
+        return F.elu(x) + 1
+
+    def forward(self, x):
+        batch_size, samples, emb_dim = x.shape
+        query = self.q(x)
+        key = self.k(x)
+        value = self.v(x)
+
+        query = self.elu_feature_map(query)
+        key = self.elu_feature_map(key)
+        # Compute the attention scores
+        kv = torch.einsum('bshd,bshe->bhde', key, value)
+
+
+        z = 1 / torch.einsum('bshd,bhd->bsh', query, key.sum(dim=1))
+        output = torch.einsum('bshd,bhde,bsh->bshe', query, kv, z)
+        output = self.proj(output)
+        return output
