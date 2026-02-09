@@ -12,6 +12,20 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - `Tags` -> mT5 encoder
 - `Lyrics` -> VoiceBPE Tokenizer
 
+
+### Project setup
+
+``` 
+conda env create -f environment.yml
+```
+
+#### Dependency
+
+Install Dependecies 
+```
+conda install --file requirements.txt
+```
+
 ### What's next
 - Cross Attention
 - Train the Autoencoder & Upload it to huggineface
