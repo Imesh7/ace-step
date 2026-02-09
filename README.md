@@ -13,10 +13,17 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - `Lyrics` -> VoiceBPE Tokenizer
 
 
-### Project setup
+### Environment Setup
+
+1. Clone the repository:
+```
+git@github.com:Imesh7/ace-step.git
+```
+
+2. Setup enviornment
 
 ``` 
-conda env create -f environment.yml
+conda env create --name ace-step -f environment.yml
 ```
 
 #### Dependency
