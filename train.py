@@ -6,7 +6,6 @@ import torch.util.dataloder as Dataloader
 
 class Pipeline:
     def __init__(self, autoencoder, dit, optimizer, max_timestamps=1000, *args, **kwds):
-        # Initialize your pipeline components here
 
         self.autoencoder = autoencoder
         self.dit = dit
@@ -48,7 +47,7 @@ def main():
     optimizer = torch.optim.Adam(list(autoencoder.parameters()) + list(dit.parameters()), lr=1e-4)
     MAX_TIMESTAMPS = 100
     num_epochs = 20
-    # Trai the model here
+    
     pipeline = Pipeline(autoencoder, dit, optimizer, max_timestamps=MAX_TIMESTAMPS)
 
     for epoch in range(num_epochs):
