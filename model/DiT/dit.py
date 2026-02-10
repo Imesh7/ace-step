@@ -1,22 +1,24 @@
 import torch.nn as nn
 import numpy as np
-from model.transformer.attention import CrossAttention, FeedForward, MultiHeadAttention
+from model.transformer.attention import LinearAttention
+from model.transformer.cross_attention import CrossAttention
+from model.transformer.mix_feed_forward import MixFeedForward
 
 # Implement DiT (Diffusion Transformer)
-
+# This will predict the noise added to the latent, so that we can denoise it in the reverse process
 
 class DiffusionTransformer(nn.Module):
     def __init__(self, in_channels, out_channels, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         # Re-check the in_channels & out , because in multi atten we did divide the value by heads
-        self.self_atten = MultiHeadAttention(
+        self.linear_atten = LinearAttention(
             in_channels=in_channels, out_channels=512, num_heads=8
         )
         self.cross_atten = CrossAttention(
-            in_channels=in_channels, out_channels=512, num_heads=8
+            in_channels=in_channels, out_channels=512, num_heads=8, rope_enabled=True
         )
         self.norm = nn.LayerNorm(512)
-        self.mix_ff = FeedForward(in_channels=512, out_channels=512)
+        self.mix_ff = MixFeedForward(in_channels=512, out_channels=512)
 
     def sinusoidal_positional_encoding(self, max_length, dim):
         pos = np.arange(max_length)[:, np.newaxis]
@@ -29,12 +31,16 @@ class DiffusionTransformer(nn.Module):
         emb[:, 1::2] = np.cos(pos / div)
         return emb
 
-    def forward(self, x):
+    def forward(self, noisy_latent, timsstamp, conditioning):
         # first flatten the latent
-        x = x.flatten(start_dim=2)
+        x = noisy_latent.flatten(start_dim=2)
 
         pos = self.sinusoidal_positional_encoding(x.shape[1], x.shape[2])
         x_pos = x + pos
-        x_atten = self.atten(x_pos)
-        x_ff = self.mix_ff(x_atten)
+
+        x = self.linear_atten(x_pos)
+        x = self.cross_atten(x, conditioning)
+        x = self.norm(x)
+        x_ff = self.mix_ff(x)
+
         return x_ff
