@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import numpy as np
 from model.transformer.attention import LinearAttention
@@ -30,6 +31,20 @@ class DiffusionTransformer(nn.Module):
         emb[:, 0::2] = np.sin(pos / div)
         emb[:, 1::2] = np.cos(pos / div)
         return emb
+    
+
+    def add_noise(self, latent, t, noise, max_timestamp):
+        beta_start = 0.0001
+        beta_end = 0.02
+        betas = torch.line_space(beta_start, beta_end, t, max_timestamp)
+        alpha = 1 - betas
+
+        alpha_cum_prod_timestamp = torch.cumprod(alpha, dim=0)
+        alpha_bar = alpha_cum_prod_timestamp[t-1]
+
+        noisey_latent = torch.sqrt(1 - alpha_bar) * latent + alpha_bar * noise
+        return noisey_latent
+
 
     def forward(self, noisy_latent, timsstamp, conditioning):
         # first flatten the latent
