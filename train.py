@@ -1,8 +1,8 @@
-from model.DiT.dit import DiffusionTransformer
-from model.autoencoder.autoencoder import DeepCompressionAutoEncoder
 import torch
 import torch.nn.functional as F
 import torch.util.dataloder as Dataloader
+from model.autoencoder.autoencoder import DeepCompressionAutoEncoder
+from model.DiT.dit import DiffusionTransformer
 
 class Pipeline:
     def __init__(self, autoencoder, dit, optimizer, max_timestamps=1000, *args, **kwds):
@@ -15,8 +15,8 @@ class Pipeline:
 
     def __call__(self, input):
         batch_size = latent.shape[0]
-        latent = self.encode(input)
 
+        latent = self.preprocess(input)
         noise = torch.randn_like(latent)
 
         t = torch.randint(0, self.max_timesteps, (batch_size,), device=self.device).long()
@@ -39,22 +39,30 @@ class Pipeline:
 
     def add_noise(self, input, t):
         return self.dit.add_noise(input, t)
+    
+
+    def preprocess(self, input):
+        # Implement any necessary preprocessing steps here
+        latent = self.encode(input)
+        return latent
 
 
 def main():
     dataloader = Dataloader()
     autoencoder = DeepCompressionAutoEncoder()
     dit = DiffusionTransformer(in_channels=32 * 80, out_channels=32 * 80)
-    optimizer = torch.optim.Adam(list(autoencoder.parameters()) + list(dit.parameters()), lr=1e-4)
-    MAX_TIMESTAMPS = 100
+    optimizer = torch.optim.Adam(autoencoder.parameters(), lr=1e-4)
+    MAX_TIMESTAMPS = 1000
     num_epochs = 20
-    # Trai the model here
+    # Train the model here
     pipeline = Pipeline(autoencoder, dit, optimizer, max_timestamps=MAX_TIMESTAMPS)
+    losses = []
 
     for epoch in range(num_epochs):
         for batch in dataloader:
             input = batch['mel_spectrogram']
             loss = pipeline(input)
+            losses.append(loss.item())
             print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}")
     
     
