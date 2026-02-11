@@ -7,7 +7,7 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 ### Key features
 
 - Linear Attention
-- DiT(Diffussion transformer) implemented
+- DiT (Diffussion transformer) implemented
 - Converted songs into mel-spectrogram
 - `Tags` -> mT5 encoder
 - `Lyrics` -> VoiceBPE Tokenizer
@@ -51,16 +51,23 @@ conda install --file requirements.txt
 │     ├─── autoencoder
 |     |        ├─── autoencoder.py
 |     |        ├─── encoder.py
-|     |        ├─── encoder.py
+|     |        └─── encoder.py
+|     |
 │     ├─── DiT
-|     |      ├─── dit.py
+|     |      └─── dit.py
+|     |
 │     └─── transformer
-|             ├─── attention.py
-|             ├─── cross_attention.py
-|             ├─── mix_feed_forward.py
+|     |        ├─── attention.py
+|     |        ├─── cross_attention.py
+|     |        └─── mix_feed_forward.py
+|     |
+|     ├─── RoPE.py
+|     └─── m5_encoder.py
+|     
 ├─── notebook
 ├─── tests
-└─── train
+├─── train.py
+└─── inference.py
 ```
 
 ### What's next
