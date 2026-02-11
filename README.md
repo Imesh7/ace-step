@@ -13,6 +13,7 @@ This is ACE-Step paper implementation (Unofficial) from scratch. This paper's go
 - `Lyrics` -> VoiceBPE Tokenizer
 - Cross Attention
 - RoPE implement
+- Implement Training pipeline
 
 
 ### Environment Setup

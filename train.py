@@ -6,7 +6,6 @@ from model.DiT.dit import DiffusionTransformer
 
 class Pipeline:
     def __init__(self, autoencoder, dit, optimizer, max_timestamps=1000, *args, **kwds):
-        # Initialize your pipeline components here
 
         self.autoencoder = autoencoder
         self.dit = dit
@@ -54,7 +53,7 @@ def main():
     optimizer = torch.optim.Adam(autoencoder.parameters(), lr=1e-4)
     MAX_TIMESTAMPS = 1000
     num_epochs = 20
-    # Train the model here
+    
     pipeline = Pipeline(autoencoder, dit, optimizer, max_timestamps=MAX_TIMESTAMPS)
     losses = []
 
