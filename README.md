@@ -43,8 +43,28 @@ Install Dependecies
 conda install --file requirements.txt
 ```
 
+
+### Folder structure
+
+```
+├─── model
+│     ├─── autoencoder
+|     |        ├─── autoencoder.py
+|     |        ├─── encoder.py
+|     |        ├─── encoder.py
+│     ├─── DiT
+|     |      ├─── dit.py
+│     └─── transformer
+|             ├─── attention.py
+|             ├─── cross_attention.py
+|             ├─── mix_feed_forward.py
+├─── notebook
+├─── tests
+└─── train
+```
+
 ### What's next
-- Train the Autoencoder & Upload it to huggineface
+- Train the Autoencoder & Upload it to Huggineface
 - Implement Encoders for music
 - Flash Attention 3
 
